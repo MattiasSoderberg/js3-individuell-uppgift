@@ -1,25 +1,36 @@
-import logo from './logo.svg';
+import React, { useState, createContext } from "react"
+import { Route, Routes } from "react-router-dom";
 import './App.css';
+import Navigation from "./components/Navigation";
+import CustomerCreatePage from "./pages/CustomerCreatePage";
+import CustomerDetailPage from "./pages/CustomerDetailPage";
+import HomePage from "./pages/HomePage";
+import LandingPage from "./pages/LandingPage";
+import LoginPage from "./pages/LoginPage";
+import UserCreatePage from "./pages/UserCreatePage";
+
+const UserContext = createContext({})
 
 function App() {
+  const [user, setUser] = useState(null)
+  const [customerList, setCustomerList] = useState([])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <UserContext.Provider value={{ user, setUser, customerList, setCustomerList }}>
+      <Navigation />
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/customer/create" element={<CustomerCreatePage />} />
+          <Route path="/customer/:id" element={<CustomerDetailPage />} />
+          <Route path="/user/create" element={<UserCreatePage />} />
+        </Routes>
+      </div>
+    </UserContext.Provider>
   );
 }
 
+export { UserContext }
 export default App;
