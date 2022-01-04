@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { UserContext } from '../App'
 import Button from '../components/Button'
 import Container from '../components/Container'
+import PrivateRoute from '../components/PrivateRoute'
 import StyledLink from '../components/StyledLink'
 import { BASE_URL } from '../utils'
 
@@ -22,7 +23,11 @@ export default function HomePage() {
             headers: headers
         })
             .then(res => res.json())
-            .then(data => setUser(data))
+            .then(data => {
+                if (token) {
+                    setUser(data)
+                }
+            })
     }, [setUser])
 
     useEffect(() => {
@@ -41,17 +46,19 @@ export default function HomePage() {
     }, [setCustomerList])
 
     return (
-        <Container col>
-            <h1>Hemskärm</h1>
-            {customerList && customerList.length !== 0 ?
-                customerList.map(customer => {
-                    return <StyledLink to={`/customer/${customer.id}`} key={customer.id}>{customer.name}</StyledLink>
-                })
-                : <p>Kundlistan är tom</p>
-            }
-            <Container>
-                <Link to="/customer/create"><Button>Skapa ny kund</Button></Link>
+        <PrivateRoute>
+            <Container col>
+                <h1>Hemskärm</h1>
+                {customerList && customerList.length !== 0 ?
+                    customerList.map(customer => {
+                        return <StyledLink to={`/customer/${customer.id}`} key={customer.id}>{customer.name}</StyledLink>
+                    })
+                    : <p>Kundlistan är tom</p>
+                }
+                <Container>
+                    <Link to="/customer/create"><Button>Skapa ny kund</Button></Link>
+                </Container>
             </Container>
-        </Container>
+        </PrivateRoute>
     )
 }

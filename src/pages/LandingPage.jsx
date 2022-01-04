@@ -5,8 +5,8 @@ import Container from '../components/Container'
 
 export default function LandingPage() {
     return (
-        <Container col>
-            <h1>Login</h1>
+        <Container col width={30}>
+            <h1>Välkommen</h1>
             <p>Logga in eller skapa ett konto.</p>
             <Container gap="3rem">
                 <Link to="/login"><Button>Logga in</Button></Link>

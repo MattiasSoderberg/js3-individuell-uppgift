@@ -4,6 +4,7 @@ import Button from '../components/Button'
 import Container from '../components/Container'
 import Input from '../components/Input'
 import Label from '../components/Label'
+import PrivateRoute from '../components/PrivateRoute'
 import { BASE_URL } from '../utils'
 
 export default function CustomerDetailPage() {
@@ -49,6 +50,7 @@ export default function CustomerDetailPage() {
                 setEmail(data.results[0].email)
                 setPhoneNumber(data.results[0].phoneNumber)
             })
+
     }, [id])
 
     const handleOnDelete = () => {
@@ -105,38 +107,40 @@ export default function CustomerDetailPage() {
     }
 
     return (
-        <Container col width={60}>
-            {customer && !showMessage ?
-                <>
-                    <h1>{name}</h1>
-                    <Container width={100}>
-                        <Container col width={25} justify="space-between" gap="1rem">
-                            <Label htmlFor="name">Företagsnamn:</Label>
-                            <Label htmlFor="orgNr">Organisationsnummer:</Label>
-                            <Label htmlFor="ref">Kundens referens:</Label>
-                            <Label htmlFor="paymentTerm">Betalningsvillkor:</Label>
-                            <Label htmlFor="vatNr">Momsnummer:</Label>
-                            <Label htmlFor="email">Email:</Label>
-                            <Label htmlFor="phoneNr">Telefonnummer:</Label>
-                            <Label htmlFor="website">Hemsida:</Label>
+        <PrivateRoute>
+            <Container col width={50}>
+                {customer && !showMessage ?
+                    <>
+                        <h1>{name}</h1>
+                        <Container width={100}>
+                            <Container col width={30} justify="space-between" gap="1rem">
+                                <Label htmlFor="name">Företagsnamn</Label>
+                                <Label htmlFor="orgNr">Organisationsnummer</Label>
+                                <Label htmlFor="ref">Kundens referens</Label>
+                                <Label htmlFor="paymentTerm">Betalningsvillkor</Label>
+                                <Label htmlFor="vatNr">Momsnummer</Label>
+                                <Label htmlFor="email">Email</Label>
+                                <Label htmlFor="phoneNr">Telefonnummer</Label>
+                                <Label htmlFor="website">Hemsida</Label>
+                            </Container>
+                            <Container col width={70} justify="space-between">
+                                <Input type="text" id="name" value={name} setValue={setName} />
+                                <Input type="text" id="orgNr" value={organisationNr} setValue={setOrganisationNr} />
+                                <Input type="text" id="ref" value={reference} setValue={setReference} />
+                                <Input type="text" id="paymentTerm" value={paymentTerm} setValue={setPaymentTerm} />
+                                <Input type="text" id="vatNr" value={vatNr} setValue={setVatNr} />
+                                <Input type="text" id="email" value={email} setValue={setEmail} />
+                                <Input type="text" id="phoneNr" value={phoneNumber} setValue={setPhoneNumber} />
+                                <Input type="text" id="website" value={website} setValue={setWebsite} />
+                            </Container>
                         </Container>
-                        <Container col width={50} justify="space-between">
-                            <Input type="text" id="name" value={name} setValue={setName} />
-                            <Input type="text" id="orgNr" value={organisationNr} setValue={setOrganisationNr} />
-                            <Input type="text" id="ref" value={reference} setValue={setReference} />
-                            <Input type="text" id="paymentTerm" value={paymentTerm} setValue={setPaymentTerm} />
-                            <Input type="text" id="vatNr" value={vatNr} setValue={setVatNr} />
-                            <Input type="text" id="email" value={email} setValue={setEmail} />
-                            <Input type="text" id="phoneNr" value={phoneNumber} setValue={setPhoneNumber} />
-                            <Input type="text" id="website" value={website} setValue={setWebsite} />
+                        <Container gap="6rem">
+                            <Button danger onClick={handleOnDelete}>Delete</Button>
+                            <Button onClick={handleOnPatch}>Ändra</Button>
                         </Container>
-                    </Container>
-                    <Container gap="3rem">
-                        <Button danger onClick={handleOnDelete}>Delete</Button>
-                        <Button onClick={handleOnPatch}>Ändra</Button>
-                    </Container>
-                </>
-                : <p>{message}</p>}
-        </Container>
+                    </>
+                    : <p>{message}</p>}
+            </Container>
+        </PrivateRoute>
     )
 }

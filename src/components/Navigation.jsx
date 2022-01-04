@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { UserContext } from '../App'
 
@@ -11,14 +12,14 @@ const StyledNavigation = styled.div`
     margin-bottom: 1rem;
     display: flex;
     align-items: center;
+    justify-content: space-between;
 `
 const UserInfoContainer = styled.div`
     width: 40%
     height: 100%
     display: flex;
     flex-direction: column;
-    padding: 2rem;
-
+    margin-left: 3rem;
 `
 const UserInfoHeading = styled.h4`
     margin: 0;
@@ -30,9 +31,30 @@ const UserInfo = styled.p`
     font-size: 0.9rem;
     margin: 0;
 `
+const Navbutton = styled.button`
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    margin-left: auto;
+    margin-right: 3rem;
+    background: #457ae600;
+    border: 1px solid black;
+
+    :hover {
+        background: #457ae6;
+        transform: scale(1.02);
+    }
+`
 
 export default function Navigation() {
-    const { user } = useContext(UserContext)
+    const { user, setUser, setCustomerList } = useContext(UserContext)
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+        setUser(null)
+        setCustomerList([])
+        localStorage.removeItem("matte-js3")
+        navigate("/")
+    }
 
     return (
         <StyledNavigation>
@@ -43,6 +65,7 @@ export default function Navigation() {
                     <UserInfo>({user.email})</UserInfo>
                 </UserInfoContainer>
             }
+            <Navbutton onClick={handleLogout}>Logga ut</Navbutton>
         </StyledNavigation>
     )
 }

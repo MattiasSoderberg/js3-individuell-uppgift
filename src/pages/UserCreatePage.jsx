@@ -4,6 +4,7 @@ import Label from '../components/Label'
 import Input from '../components/Input'
 import Button from '../components/Button'
 import { BASE_URL } from '../utils'
+import Paragraph from '../components/Paragraph'
 
 export default function UserCreatePage() {
     const [email, setEmail] = useState("")
@@ -11,8 +12,9 @@ export default function UserCreatePage() {
     const [lastName, setLastName] = useState("")
     const [password, setPassword] = useState("")
     const [organisationName, setOrganisationName] = useState("")
-    const [organisationKind, setOrganisationKind] = useState()
+    const [organisationKind, setOrganisationKind] = useState("default")
     const [isPending, setIsPending] = useState(false)
+    const [message, setMessage] = useState("")
 
     const handleOnSubmit = (e) => {
         e.preventDefault()
@@ -37,8 +39,15 @@ export default function UserCreatePage() {
             headers: headers,
             body: JSON.stringify(payload)
         })
-            .then(res => res.json())
+            .then(res => {
+                if (res.ok) {
+                    return res.json()
+                } else {
+                    throw new Error("Missing information")
+                }
+            })
             .then(data => setIsPending(true))
+            .catch(err => setMessage("Du måste fylla i alla fält"))
     }
 
     return (
@@ -48,6 +57,7 @@ export default function UserCreatePage() {
                 :
                 <>
                     <h1>Skapa användare</h1>
+                    {message && <Paragraph error>{message}</Paragraph>}
                     <form onSubmit={handleOnSubmit}>
                         <Container>
                             <Container col width={25} justify="space-between" gap="1rem">
@@ -63,6 +73,7 @@ export default function UserCreatePage() {
                                 <Input type="text" id="lastName" value={lastName} setValue={setLastName} placeholder="Efternamn" />
                                 <Input type="text" id="organisationName" value={organisationName} setValue={setOrganisationName} placeholder="Företagsnamn" />
                                 <Input select id="organisationKind" value={organisationKind} setValue={setOrganisationKind}>
+                                    <option disabled value="default">Välj något</option>
                                     <option value="0">0</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
