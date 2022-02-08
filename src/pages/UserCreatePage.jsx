@@ -81,10 +81,10 @@ export default function UserCreatePage() {
                                 <Input type="text" id="email" value={email} setValue={setEmail} placeholder="Email" />
                                 <Input type="password" id="password" value={password} setValue={setPassword} placeholder="Password" />
                             </Container>
+                        </Container>
                             <Container>
                                 <Button type="submit">Skapa användare</Button>
                             </Container>
-                        </Container>
                     </form>
                 </>
             }

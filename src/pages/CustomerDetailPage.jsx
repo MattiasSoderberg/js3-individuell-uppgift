@@ -24,7 +24,7 @@ export default function CustomerDetailPage() {
     const [phoneNumber, setPhoneNumber] = useState("")
 
     useEffect(() => {
-        const url = `${BASE_URL}/api/v1/customers/${id}`
+        const url = `${BASE_URL}/api/v1/customers/${id}/`
         const token = localStorage.getItem("matte-js3")
         const headers = {
             "Content-Type": "application/json",
@@ -39,16 +39,17 @@ export default function CustomerDetailPage() {
         })
             .then(res => res.json())
             .then(data => {
+                console.log(data)
                 setShowMessage(false)
-                setCustomer(data.results[0])
-                setName(data.results[0].name)
-                setOrganisationNr(data.results[0].organisationNr)
-                setVatNr(data.results[0].vatNr)
-                setReference(data.results[0].reference)
-                setPaymentTerm(data.results[0].paymentTerm)
-                setWebsite(data.results[0].website)
-                setEmail(data.results[0].email)
-                setPhoneNumber(data.results[0].phoneNumber)
+                setCustomer(data)
+                setName(data.name)
+                setOrganisationNr(data.organisationNr)
+                setVatNr(data.vatNr)
+                setReference(data.reference)
+                setPaymentTerm(data.paymentTerm)
+                setWebsite(data.website)
+                setEmail(data.email)
+                setPhoneNumber(data.phoneNumber)
             })
 
     }, [id])

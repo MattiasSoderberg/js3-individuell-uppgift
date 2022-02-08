@@ -8,9 +8,9 @@ const StyledButton = styled.button`
     border: none;
     font-size: 1.2rem;
     box-shadow: 2px 3px 5px lightgray;
-    transition: transform ease 150ms;
+    transition: all ease 250ms;
 
-    :hover {
+    &:hover {
         transform: scale(1.01);
         box-shadow: 3px 4px 7px gray;
         background: ${props => props.hoverColor ? props.hoverColor : "#4567EA"};
